@@ -96,7 +96,5 @@ TARGET_LINK_LIBRARIES(cvx_util
 	${catkin_LIBRARIES}
 )
 
-add_executable(make_calib_pattern "camera/make_pattern.cpp")
-target_link_libraries(make_calib_pattern cvx_util ${Boost_LIBRARIES} ${catkin_LIBRARIES})
 
 

@@ -11,6 +11,3 @@ set ( CVX_OBJREC3D_HEADERS
 
 add_library(cvx_orec_linemod SHARED ${CVX_OBJREC3D_SOURCES} ${CVX_OBJREC3D_HEADERS})
 target_link_libraries(cvx_orec_linemod ${catkin_LIBRARIES} ${Boost_LIBRARIES} ${OpenCV_LIBRARIES} ${ASSIMP_LIBRARIES})
-
-add_executable(render_model render_model.cpp)
-target_link_libraries(render_model ${catkin_LIBRARIES} ${Boost_LIBRARIES} ${OpenCV_LIBRARIES} ${ASSIMP_LIBRARIES})

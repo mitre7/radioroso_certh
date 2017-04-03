@@ -1,20 +1,20 @@
-SET(OGL_SHADERS 
-    shaders/skinning.vs 
-    shaders/rigid.vs 
-	shaders/phong.fs
-    shaders/flat.fs 
-	shaders/gouraud.fs
+SET(OGL_SHADERS
+    shaders/skinning.vs
+    shaders/rigid.vs
+        shaders/phong.fs
+    shaders/flat.fs
+        shaders/gouraud.fs
 )
 
 add_executable(makeres makeres.cpp)
 target_link_libraries(makeres ${Boost_LIBRARIES})
 
 foreach(rsrc ${OGL_SHADERS})
-	get_filename_component(RSRC_OUT ${rsrc} NAME_WE)
-	add_custom_command(
-		OUTPUT ${CMAKE_BINARY_DIR}/${RSRC_OUT}_shader.h
-		COMMAND makeres "_rc" ${CMAKE_CURRENT_SOURCE_DIR}/${rsrc} ${CMAKE_BINARY_DIR}/${RSRC_OUT}_shader.h
-		DEPENDS ${rsrc})
+        get_filename_component(RSRC_OUT ${rsrc} NAME_WE)
+        add_custom_command(
+                OUTPUT ${CMAKE_BINARY_DIR}/${RSRC_OUT}_shader.h
+                COMMAND makeres "_rc" ${CMAKE_CURRENT_SOURCE_DIR}/${rsrc} ${CMAKE_BINARY_DIR}/${RSRC_OUT}_shader.h
+                DEPENDS ${rsrc})
 endforeach()
 
 include_directories(${CMAKE_BINARY_DIR})
