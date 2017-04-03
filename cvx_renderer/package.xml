@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<package>
+	<name>cvx_renderer</name>
+	<version>1.0.0</version>
+  	<description>Offscreen renderer of 3D models</description>
+
+	<maintainer email="malasiot@iti.gr">Sotiris Malassiotis</maintainer>
+	<license>BSD</license>
+
+	<buildtool_depend>catkin</buildtool_depend>
+
+	<build_depend>eigen</build_depend>
+	<build_depend>opencv2</build_depend>
+	<build_depend>assimp-dev</build_depend>
+	<build_depend>cvx_util</build_depend>
+    <build_depend>opengl</build_depend>
+
+	<run_depend>cvx_util</run_depend>
+	<run_depend>opencv2</run_depend>
+    <run_depend>assimp-dev</run_depend>
+	<run_depend>opengl</run_depend>
+</package>
