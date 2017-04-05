@@ -82,13 +82,17 @@ public:
 
     bool init(const boost::filesystem::path &tr_data_folder);
 
-    void detect(const DetectionParameters &params, const cv::Mat &rgb, const cv::Mat &depth, const cv::Mat &mask, std::vector<Result> &results, uint c) ;
+    void detect(const DetectionParameters &params, const cv::Mat &rgb, const cv::Mat &mask, uint c) ;
 
     float overlapPercentage(cv::Rect r1, cv::Rect r2);
     void findMatchRectanges(const std::vector<cv::linemod::Template>& templates, int num_modalities, cv::Point offset, int template_id);
     void keepBestMatches();
     void drawRectangles(cv::Mat& dst);
     void convexHull(cv::Mat& dst);
+
+    void clearVectors();
+
+    std::vector<std::vector<cv::Point> > getConvexHullPoints(const DetectionParameters &params, const cv::Mat &rgb, const cv::Mat &mask, uint c);
 
     void draw(cv::Mat &canvas, const std::vector<Result> &results) ;
 
@@ -137,6 +141,8 @@ private:
     std::vector<float> sum_theta;
     std::vector<uint32_t> counter;
     std::vector<cv::linemod::Match> matches;
+
+    std::vector<std::vector<cv::Point> > convex_hull_points;
 
     std::vector<float> param1;
     std::vector<float> param2;

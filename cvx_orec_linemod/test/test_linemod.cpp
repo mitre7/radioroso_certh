@@ -62,7 +62,6 @@ int main (int argc, char *argv[])
 ////     cv::Size new_size(3696, 2448);
 //     cv::resize(rgb,rgb,new_size);
 
-     cv::Mat depth;
      cv::Mat mask;
 //     cv::Mat depth = cv::imread("/home/malasiot/tmp/adouma/scene2/depth10.png", -1) ;
      //cv::Mat mask = cv::Mat(rgb.size(), CV_8UC1, cv::Scalar(255)) ;
@@ -75,8 +74,7 @@ int main (int argc, char *argv[])
 
 
 //     params.depth_threshold_ = 20 ;
-     vector<LINEMODObjectDetector::Result> results ;
-     det.detect(params, rgb, depth, mask, results, i) ;
+     det.detect(params, rgb, mask, i) ;
 //     cv::Mat im = rgb.clone() ;
 //     det.draw(im, results) ;
 //     cv::imwrite("/tmp/results.png", im) ;

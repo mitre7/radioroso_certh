@@ -445,8 +445,8 @@ void LINEMODObjectDetector::drawRectangles(cv::Mat& dst)
            cv::putText(dst, "phi=" + boost::lexical_cast<std::string>(phi[j]), cv::Point(roi[j].x+roi[j].width+5, roi[j].y), cv:: FONT_HERSHEY_SIMPLEX, 1,  CV_RGB(0, 0, 0),4);
            cv::putText(dst, "theta=" + boost::lexical_cast<std::string>(theta[j]), cv::Point(roi[j].x+roi[j].width+5, roi[j].y+50), cv:: FONT_HERSHEY_SIMPLEX, 1,  CV_RGB(0, 0, 0),4);
 
-           cv::putText(dst, "average phi=" + boost::lexical_cast<std::string>(sum_phi[j]/counter[j]), cv::Point(roi[j].x+roi[j].width+5, roi[j].y+100), cv:: FONT_HERSHEY_SIMPLEX, 1,  CV_RGB(0, 0, 0),4);
-           cv::putText(dst, "average theta=" + boost::lexical_cast<std::string>(sum_theta[j]/counter[j]), cv::Point(roi[j].x+roi[j].width+5, roi[j].y+150), cv:: FONT_HERSHEY_SIMPLEX, 1,  CV_RGB(0, 0, 0),4);
+//           cv::putText(dst, "average phi=" + boost::lexical_cast<std::string>(sum_phi[j]/counter[j]), cv::Point(roi[j].x+roi[j].width+5, roi[j].y+100), cv:: FONT_HERSHEY_SIMPLEX, 1,  CV_RGB(0, 0, 0),4);
+//           cv::putText(dst, "average theta=" + boost::lexical_cast<std::string>(sum_theta[j]/counter[j]), cv::Point(roi[j].x+roi[j].width+5, roi[j].y+150), cv:: FONT_HERSHEY_SIMPLEX, 1,  CV_RGB(0, 0, 0),4);
         }
     }
 }
@@ -455,6 +455,7 @@ void LINEMODObjectDetector::convexHull(cv::Mat& dst)
 {
     std::vector<cv::Point> points;
     std::vector<cv::Point> hull_points;
+    std::vector<int32_t[2]> temp_points;
 
     for (uint j=0; j<template_id_vector.size(); j++)
     {
@@ -467,9 +468,12 @@ void LINEMODObjectDetector::convexHull(cv::Mat& dst)
                 cv::linemod::Feature f = templates[0].features[i];
 
                 points.push_back(cv::Point(f.x + matches[j].x, f.y + matches[j].y));
-//                cv::circle(dst, pt, 4, CV_RGB(0, 0, 0));
-                cv::convexHull(points, hull_points);
+//                cv::circle(dst, pt, 4, CV_RGB(0, 0, 0));                
             }
+
+            cv::convexHull(points, hull_points);
+
+            convex_hull_points.push_back(hull_points);
 
             for (uint h=0; h<hull_points.size()-1; h++)
             {
@@ -497,7 +501,7 @@ struct BestMatch {
     uint lm_match_id_ ;
 };
 
-void LINEMODObjectDetector::detect(const DetectionParameters &params, const cv::Mat &rgb, const cv::Mat &depth, const cv::Mat &mask, vector<Result> &results, uint c)
+void LINEMODObjectDetector::detect(const DetectionParameters &params, const cv::Mat &rgb, const cv::Mat &mask, uint c)
 {
     std::vector<cv::String> class_ids;
     std::vector<cv::Mat> quantized_images, sources(1), masks(1) ;
@@ -552,6 +556,18 @@ void LINEMODObjectDetector::detect(const DetectionParameters &params, const cv::
 
 //     cv::imwrite("/temp/linemod.PNG", dst) ;
 
+}
+
+std::vector<std::vector<cv::Point> > LINEMODObjectDetector::getConvexHullPoints(const DetectionParameters &params, const cv::Mat &rgb, const cv::Mat &mask, uint c)
+{
+    detect(params, rgb, mask, c);
+
+    return convex_hull_points;
+}
+
+void LINEMODObjectDetector::clearVectors()
+{
+    convex_hull_points.clear();
 }
 
 void LINEMODObjectDetector::draw(cv::Mat &canvas, const std::vector<Result> &results)
