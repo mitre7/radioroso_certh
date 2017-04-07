@@ -483,7 +483,7 @@ void LINEMODObjectDetector::convexHull(cv::Mat& dst)
             const cv::Point* elementPoints = { &hull_points[0] };
             int numberOfPoints = (int)hull_points.size();
 
-            cv::fillConvexPoly(dst, elementPoints, numberOfPoints, CV_RGB( 255, 255, 255));
+//            cv::fillConvexPoly(dst, elementPoints, numberOfPoints, CV_RGB( 255, 255, 255));
 
             points.clear();
             hull_points.clear();

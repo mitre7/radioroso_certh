@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 2.8.3)
-project(spring_detector)
+project(camera_helpers)
 
 find_package(Boost 1.49 REQUIRED COMPONENTS system filesystem chrono program_options)
 find_package(OpenCV 3 REQUIRED COMPONENTS core highgui video imgproc rgbd)
@@ -17,17 +17,14 @@ find_package(catkin REQUIRED COMPONENTS
   cvx_orec_linemod
 )
 
-add_message_files(
-  FILES
-  point.msg
-  hull.msg
-  hullArray.msg
-)
+#add_message_files(
+#  FILES
+#)
 
-add_service_files(
-  FILES
-  springDetect.srv
-)
+#add_service_files(
+#  FILES
+#  springDetect.srv
+#)
 
 generate_messages(
    DEPENDENCIES
@@ -36,18 +33,17 @@ generate_messages(
 
 catkin_package(
   INCLUDE_DIRS include
-  CATKIN_DEPENDS message_runtime std_msgs
 )
 
 include_directories(
-  include
+  include/
   ${OpenCV_INCLUDE_DIRS}
   ${catkin_INCLUDE_DIRS}
 )
 
-add_executable(test_detector src/certh_detector_node.cpp src/certh_detector.cpp)
-target_link_libraries(test_detector ${Boost_LIBRARIES} ${catkin_LIBRARIES} )
-#add_dependencies(test_detector ${catkin_EXPORTED_TARGETS})
+
+add_executable(camera_server src/camera_server_node.cpp src/camera_server.cpp)
+target_link_libraries(camera_server ${Boost_LIBRARIES} ${catkin_LIBRARIES} )
 
 ## Declare a C++ library
 # add_library(${PROJECT_NAME}
