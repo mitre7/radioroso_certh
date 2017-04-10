@@ -15,8 +15,6 @@ void CerthDetector::imageCallback(const sensor_msgs::ImageConstPtr& msg)
 
 bool CerthDetector::sDetect(spring_detector::springDetect::Request &req, spring_detector::springDetect::Response &res)
 {
-    req.temp = true;
-
     cv::Size new_size(3696, 2448);
     cv::resize(rgb,rgb,new_size);
 
