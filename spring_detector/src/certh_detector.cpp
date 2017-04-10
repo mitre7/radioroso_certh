@@ -17,40 +17,37 @@ bool CerthDetector::sDetect(spring_detector::springDetect::Request &req, spring_
 {
     req.temp = true;
 
-    cvx::orec::linemod::LINEMODObjectDetector det ;
-    cvx::orec::linemod::LINEMODObjectDetector::DetectionParameters params ;
-    std::vector<std::vector<cv::Point> > convex_hull_points;
-
-    det.init("/tmp/spring_images/") ;
-
     cv::Size new_size(3696, 2448);
     cv::resize(rgb,rgb,new_size);
 
     cv::Mat mask;
 
-    convex_hull_points = det.getConvexHullPoints(params, rgb, mask, 0) ;
+    convex_hull_points = det.getPosition(params, rgb, mask, 0) ;
+    det.getPose(rotY, rotZ);
 
     for (uint i=0; i<convex_hull_points.size(); i++)
     {
-        std::cout << "Spring: " << i << std::endl;
         for (uint j=0; j<convex_hull_points[i].size(); j++)
         {
-            std::cout << "x = " << convex_hull_points[i][j].x << std::endl;
-            std::cout << "y = " << convex_hull_points[i][j].y << std::endl;
-
             p.x = convex_hull_points[i][j].x;
             p.y = convex_hull_points[i][j].y;
             spring_data.points.push_back(p);
         }
+        spring_data.phi = rotY[i];
+        spring_data.theta = rotZ[i];
         springs_array.springs.push_back(spring_data);
         spring_data.points.clear();
     }
+
+    det.clearVectors();
+
+    //------Printing out the results---------//
 
     std::cout << "Number of springs: " << springs_array.springs.size() << std::endl;
 
     for (uint m=0; m<springs_array.springs.size(); m++)
     {
-        std::cout << "Number of points: " << springs_array.springs[m].points.size() << std::endl;
+//        std::cout << "Number of points: " << springs_array.springs[m].points.size() << std::endl;
 
         for (uint n=0; n<springs_array.springs[m].points.size(); n++)
         {
@@ -63,7 +60,9 @@ bool CerthDetector::sDetect(spring_detector::springDetect::Request &req, spring_
         }
     }
 
-    cv::imwrite("/tmp/test.png", rgb);
+//    cv::imwrite("/tmp/test.png", rgb);
+
+    //---------------------------------//
 
     res.spring_msg = springs_array;
     return true;

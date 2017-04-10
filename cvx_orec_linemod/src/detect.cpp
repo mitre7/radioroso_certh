@@ -226,8 +226,11 @@ bool LINEMODObjectDetector::init(const fs::path &tr_data_folder)
         ifstream param1_file;
         ifstream param2_file;
 
-        param1_file.open("/tmp/spring_images/param1_file.txt");
-        param2_file.open("/tmp/spring_images/param2_file.txt");
+        fs::path dir_to_file1(str(boost::format("%s/param1_file.txt") %tr_data_folder.string()));
+        fs::path dir_to_file2(str(boost::format("%s/param2_file.txt") %tr_data_folder.string()));
+
+        param1_file.open(dir_to_file1.string().c_str());
+        param2_file.open(dir_to_file2.string().c_str());
         string line;
         float input1, input2;
 
@@ -442,8 +445,8 @@ void LINEMODObjectDetector::drawRectangles(cv::Mat& dst)
         if (keep_index[j])
         {
            cv::rectangle(dst, roi[j], CV_RGB(0, 255, 0), 2, 8, 0);
-           cv::putText(dst, "phi=" + boost::lexical_cast<std::string>(phi[j]), cv::Point(roi[j].x+roi[j].width+5, roi[j].y), cv:: FONT_HERSHEY_SIMPLEX, 1,  CV_RGB(0, 0, 0),4);
-           cv::putText(dst, "theta=" + boost::lexical_cast<std::string>(theta[j]), cv::Point(roi[j].x+roi[j].width+5, roi[j].y+50), cv:: FONT_HERSHEY_SIMPLEX, 1,  CV_RGB(0, 0, 0),4);
+           cv::putText(dst, "phi=" + boost::lexical_cast<std::string>(phi[j]), cv::Point(roi[j].x+roi[j].width+5, roi[j].y-15), cv:: FONT_HERSHEY_SIMPLEX, 1,  CV_RGB(0, 0, 0),4);
+           cv::putText(dst, "theta=" + boost::lexical_cast<std::string>(theta[j]), cv::Point(roi[j].x+roi[j].width+5, roi[j].y+15), cv:: FONT_HERSHEY_SIMPLEX, 1,  CV_RGB(0, 0, 0),4);
 
 //           cv::putText(dst, "average phi=" + boost::lexical_cast<std::string>(sum_phi[j]/counter[j]), cv::Point(roi[j].x+roi[j].width+5, roi[j].y+100), cv:: FONT_HERSHEY_SIMPLEX, 1,  CV_RGB(0, 0, 0),4);
 //           cv::putText(dst, "average theta=" + boost::lexical_cast<std::string>(sum_theta[j]/counter[j]), cv::Point(roi[j].x+roi[j].width+5, roi[j].y+150), cv:: FONT_HERSHEY_SIMPLEX, 1,  CV_RGB(0, 0, 0),4);
@@ -474,6 +477,9 @@ void LINEMODObjectDetector::convexHull(cv::Mat& dst)
             cv::convexHull(points, hull_points);
 
             convex_hull_points.push_back(hull_points);
+            theta_.push_back(theta[j]);
+            phi_.push_back(phi[j]);
+
 
             for (uint h=0; h<hull_points.size()-1; h++)
             {
@@ -558,16 +564,24 @@ void LINEMODObjectDetector::detect(const DetectionParameters &params, const cv::
 
 }
 
-std::vector<std::vector<cv::Point> > LINEMODObjectDetector::getConvexHullPoints(const DetectionParameters &params, const cv::Mat &rgb, const cv::Mat &mask, uint c)
+std::vector<std::vector<cv::Point> > LINEMODObjectDetector::getPosition(const DetectionParameters &params, const cv::Mat &rgb, const cv::Mat &mask, uint c)
 {
     detect(params, rgb, mask, c);
 
     return convex_hull_points;
 }
 
+void LINEMODObjectDetector::getPose(std::vector<float> &rotY, std::vector<float> &rotZ)
+{
+    rotY = phi_;
+    rotZ = theta_;
+}
+
 void LINEMODObjectDetector::clearVectors()
 {
     convex_hull_points.clear();
+    theta_.clear();
+    phi_.clear();
 }
 
 void LINEMODObjectDetector::draw(cv::Mat &canvas, const std::vector<Result> &results)

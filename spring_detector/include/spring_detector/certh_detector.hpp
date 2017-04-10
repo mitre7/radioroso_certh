@@ -16,7 +16,10 @@
 #include <cv_bridge/cv_bridge.h>
 #include <opencv2/highgui/highgui.hpp>
 
-
+#include <boost/filesystem.hpp>
+#include <boost/format.hpp>
+#include <unistd.h>
+#include <pwd.h>
 
 class CerthDetector
 {
@@ -34,11 +37,23 @@ private:
 
     cv::Mat rgb;
 
+    cvx::orec::linemod::LINEMODObjectDetector det ;
+    cvx::orec::linemod::LINEMODObjectDetector::DetectionParameters params ;
+    std::vector<std::vector<cv::Point> > convex_hull_points;
+    std::vector<float> rotY, rotZ;
+
 public:
     CerthDetector()
     : it_(nh_)
     {
         ROS_INFO("Constructor");
+
+        struct passwd *pw = getpwuid(getuid());
+        const char *homedir = pw->pw_dir;
+
+        boost::filesystem::path dir_to_data(str(boost::format("%s/.ros/data/spring_images/") %homedir));
+
+        det.init(dir_to_data);
 
         img_sub_ = it_.subscribe("camera/Image", 1, &CerthDetector::imageCallback, this);
         detect_service = nh_.advertiseService("detect_spring", &CerthDetector::sDetect, this);

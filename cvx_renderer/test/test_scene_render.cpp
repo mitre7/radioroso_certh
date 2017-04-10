@@ -31,7 +31,7 @@ int main(int argc, char *argv[])
   //  s = Scene::load("/home/malasiot/Downloads/human.dae") ;
 //    s = Scene::load("/home/malasiot/Downloads/box.dae") ;
 
-    ScenePtr s = Scene::loadAssimp("/home/echord/Mitre/blender_models/spring_toy_real_sizev6.obj") ;
+    ScenePtr s = Scene::loadAssimp("/home/echord/Mitre/blender_models/spring_toy_real_size_prague.obj") ;
     //ScenePtr s = Scene::load("/home/malasiot/tmp/table.dae") ;
     //ScenePtr s = Scene::loadAssimp("/home/echord/Mitre/blender_models/iron_closed_nemonic_spring.ply") ;
 

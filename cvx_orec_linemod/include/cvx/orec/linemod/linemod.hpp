@@ -92,7 +92,8 @@ public:
 
     void clearVectors();
 
-    std::vector<std::vector<cv::Point> > getConvexHullPoints(const DetectionParameters &params, const cv::Mat &rgb, const cv::Mat &mask, uint c);
+    std::vector<std::vector<cv::Point> > getPosition(const DetectionParameters &params, const cv::Mat &rgb, const cv::Mat &mask, uint c);
+    void getPose(std::vector<float> &rotY, std::vector<float> &rotZ);
 
     void draw(cv::Mat &canvas, const std::vector<Result> &results) ;
 
@@ -143,6 +144,7 @@ private:
     std::vector<cv::linemod::Match> matches;
 
     std::vector<std::vector<cv::Point> > convex_hull_points;
+    std::vector<float> theta_, phi_;
 
     std::vector<float> param1;
     std::vector<float> param2;
