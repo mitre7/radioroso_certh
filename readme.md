@@ -30,6 +30,6 @@ The initial position of the object is shown below, where the origin of the objec
 The variables phi and theta denote the rotation of the spring over the Y and Z axis respectively, following the
 sequence of XZY intrinsic rotations. Since the spring is symmetric with respect to X axis, no rotation is needed.
 
-![alt text](https://bitbucket.org/mitre7/radioroso_certh/src/bfeba8710c404e1b6f7304e5309c98cbe57e89e5/blender.png?at=master&fileviewer=file-view-default "reference")
+![alt text](https://bytebucket.org/mitre7/radioroso_certh/raw/f94d787b762c68861151664a643431e063cef362/blender.png?token=11bd5f55d68c085f90ee105d01cfbd1af38bcee3 "reference")
 
 
