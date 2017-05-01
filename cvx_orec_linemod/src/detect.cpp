@@ -445,8 +445,8 @@ void LINEMODObjectDetector::drawRectangles(cv::Mat& dst)
         if (keep_index[j])
         {
            cv::rectangle(dst, roi[j], CV_RGB(0, 255, 0), 2, 8, 0);
-           cv::putText(dst, "phi=" + boost::lexical_cast<std::string>(phi[j]), cv::Point(roi[j].x+roi[j].width+5, roi[j].y-15), cv:: FONT_HERSHEY_SIMPLEX, 1,  CV_RGB(0, 0, 0),4);
-           cv::putText(dst, "theta=" + boost::lexical_cast<std::string>(theta[j]), cv::Point(roi[j].x+roi[j].width+5, roi[j].y+15), cv:: FONT_HERSHEY_SIMPLEX, 1,  CV_RGB(0, 0, 0),4);
+//           cv::putText(dst, "phi=" + boost::lexical_cast<std::string>(phi[j]), cv::Point(roi[j].x+roi[j].width+5, roi[j].y-15), cv:: FONT_HERSHEY_SIMPLEX, 1,  CV_RGB(0, 0, 0),4);
+//           cv::putText(dst, "theta=" + boost::lexical_cast<std::string>(theta[j]), cv::Point(roi[j].x+roi[j].width+5, roi[j].y+15), cv:: FONT_HERSHEY_SIMPLEX, 1,  CV_RGB(0, 0, 0),4);
 
 //           cv::putText(dst, "average phi=" + boost::lexical_cast<std::string>(sum_phi[j]/counter[j]), cv::Point(roi[j].x+roi[j].width+5, roi[j].y+100), cv:: FONT_HERSHEY_SIMPLEX, 1,  CV_RGB(0, 0, 0),4);
 //           cv::putText(dst, "average theta=" + boost::lexical_cast<std::string>(sum_theta[j]/counter[j]), cv::Point(roi[j].x+roi[j].width+5, roi[j].y+150), cv:: FONT_HERSHEY_SIMPLEX, 1,  CV_RGB(0, 0, 0),4);
@@ -519,7 +519,7 @@ void LINEMODObjectDetector::detect(const DetectionParameters &params, const cv::
 //     masks[1] = mask ;
 
 //     detector_->match(sources, params.lm_cutoff_, matches, class_ids, quantized_images, masks);
-     detector_->match(sources, 45, matches, class_ids, quantized_images, masks);
+     detector_->match(sources, 50, matches, class_ids, quantized_images, masks);
 
 
      cv::Mat dst = rgb.clone() ;
