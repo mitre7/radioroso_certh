@@ -32,7 +32,7 @@ catkin_package(
 
 
 include_directories(
-	${CMAKE_SOURCE_DIR}/cvx_util/include/
+	${PROJECT_SOURCE_DIR}/include/
 	${EIGEN3_INCLUDE_DIR}
 	${OpenCV_INCLUDE_DIRS}
 	${PCL_INCLUDE_DIRS}
@@ -44,7 +44,7 @@ IF ( CMAKE_COMPILER_IS_GNUCXX )
 	SET( CMAKE_CXX_FLAGS  "${CMAKE_CXX_FLAGS} -Wreturn-type" )
 ENDIF( CMAKE_COMPILER_IS_GNUCXX )
 
-SET ( CVX_UTIL_INCLUDE_DIR ${CMAKE_SOURCE_DIR}/cvx_util/include/cvx/util/ )
+SET ( CVX_UTIL_INCLUDE_DIR ${PROJECT_SOURCE_DIR}/include/cvx/util/ )
 
 ADD_SUBDIRECTORY(src)
 
